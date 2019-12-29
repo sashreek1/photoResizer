@@ -2,7 +2,7 @@ import PIL.Image as Image
 import os
 import tkinter as tk
 from tkinter import messagebox
-
+#img.save(edited_dir+'/'+img_name)
 
 def convertor (imgpath,edited_dir,img_name):
     img = Image.open(imgpath)
@@ -10,7 +10,7 @@ def convertor (imgpath,edited_dir,img_name):
     width = 400
     height = int(ar*width)
     img = img.resize((width,height), Image.ANTIALIAS)
-    img.save(edited_dir+'/'+img_name)
+    return img
 
 
 def writer(img_dir,edited_dir):
@@ -18,27 +18,37 @@ def writer(img_dir,edited_dir):
         os.mkdir(edited_dir)
         with os.scandir(img_dir) as entries:
             for entry in entries:
+                quality = 100
                 img_name = str(entry.name)
                 imagepath = img_dir+'/'+img_name
-                convertor(imagepath,edited_dir,img_name)
+                img = convertor(imagepath,edited_dir,img_name)
+                img.save(edited_dir + '/' + img_name)
                 statinfo = os.stat(edited_dir + '/' + img_name)
                 size = int(statinfo.st_size)/1000
                 print(size)
-                if size>64:
-                    messagebox.showwarning("Warning", "The file "+img_name+"is too big")
+                if size > 64:
+                    while size > 64:
+                        img.save(edited_dir + '/' + img_name)
+                        quality -= 5
+                        size = int(statinfo.st_size)/1000
+
 
     except FileExistsError :
         with os.scandir(img_dir) as entries:
             for entry in entries:
+                quality = 100
                 img_name = str(entry.name)
                 imagepath = img_dir+'/'+img_name
                 convertor(imagepath,edited_dir,img_name)
+                img.save(edited_dir + '/' + img_name)
                 statinfo = os.stat(edited_dir + '/' + img_name)
                 size = int(statinfo.st_size)/1000
                 print(size)
                 if size>64:
-                    messagebox.showwarning("Warning", "The file "+img_name+"is too big")
-
+                    while size > 64:
+                        img.save(edited_dir + '/' + img_name, quality=quality)
+                        quality -= 5
+                        size = int(statinfo.st_size) / 1000
 
 def sub_func(pic_path,edit_path):
     picture = pic_path.get()
