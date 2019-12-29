@@ -1,6 +1,7 @@
 import PIL.Image as Image
 import os
 import tkinter as tk
+from tkinter import messagebox
 
 
 def convertor (imgpath,edited_dir,img_name):
@@ -20,12 +21,24 @@ def writer(img_dir,edited_dir):
                 img_name = str(entry.name)
                 imagepath = img_dir+'/'+img_name
                 convertor(imagepath,edited_dir,img_name)
+                statinfo = os.stat(edited_dir + '/' + img_name)
+                size = int(statinfo.st_size)/1000
+                print(size)
+                if size>64:
+                    messagebox.showwarning("Warning", "The file "+img_name+"is too big")
+
     except FileExistsError :
         with os.scandir(img_dir) as entries:
             for entry in entries:
                 img_name = str(entry.name)
                 imagepath = img_dir+'/'+img_name
                 convertor(imagepath,edited_dir,img_name)
+                statinfo = os.stat(edited_dir + '/' + img_name)
+                size = int(statinfo.st_size)/1000
+                print(size)
+                if size>64:
+                    messagebox.showwarning("Warning", "The file "+img_name+"is too big")
+
 
 def sub_func(pic_path,edit_path):
     picture = pic_path.get()
