@@ -1,9 +1,7 @@
 import PIL.Image as Image
 import os
 import tkinter as tk
-"""
-size check
-"""
+
 
 def convertor (imgpath,edited_dir,img_name):
     img = Image.open(imgpath)
