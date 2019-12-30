@@ -25,8 +25,7 @@ def writer(img_dir,edited_dir):
                 print(size)
                 if size > 64:
                     print("image too big changing quality")
-                    print("quality =", quality)
-                    img.save(edited_dir + '/' + img_name, quality=40)
+                    img.save(edited_dir + '/' + img_name, quality=20)
                     size = int(statinfo.st_size) / 1000
                     print("new size :", size)
 
@@ -43,8 +42,7 @@ def writer(img_dir,edited_dir):
                 print(size)
                 if size>64:
                     print("image too big changing quality")
-                    print("quality =", quality)
-                    img.save(edited_dir + '/' + img_name,quality=40)
+                    img.save(edited_dir + '/' + img_name,quality=20)
                     size = int(statinfo.st_size) / 1000
                     print("new size :", size)
 
