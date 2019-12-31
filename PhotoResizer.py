@@ -4,12 +4,19 @@ import tkinter as tk
 
 def convertor (imgpath,edited_dir,img_name):
     img = Image.open(imgpath)
-    ar = float(img.size[1])/float(img.size[0])
-    width = 400
-    height = int(ar*width)
-    img = img.resize((width,height), Image.ANTIALIAS)
-    return img
-
+    w,h = img.size
+    if w>h:
+        ar = float(img.size[1]) / float(img.size[0])
+        width = 400
+        height = int(ar*width)
+        img = img.resize((width,height), Image.ANTIALIAS)
+        return img
+    else:
+        ar = float(img.size[0]) / float(img.size[1])
+        height = 400
+        width = int(ar * height)
+        img = img.resize((width, height), Image.ANTIALIAS)
+        return img
 
 def writer(img_dir,edited_dir):
     try:
